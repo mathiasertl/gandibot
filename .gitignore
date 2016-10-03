@@ -1,5 +1,7 @@
 *.sw[op]
 *.pyc
+/.gandibot
 /bin/
 /include/
 /lib/
+/share/
