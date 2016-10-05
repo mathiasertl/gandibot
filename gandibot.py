@@ -3,6 +3,7 @@ import configparser
 import time
 import sys
 
+from datetime import datetime
 from xmlrpc.client import Fault
 from xmlrpc.client import ServerProxy
 
@@ -51,16 +52,18 @@ domain_spec = {
     'duration': 1,
 }
 
-
-# get domain status
-result = api.domain.available(apikey, [domain])
-while result[domain] == 'pending':
-    time.sleep(0.7)  # magic number in the gandi docs
+while True:
     result = api.domain.available(apikey, [domain])
+    while result[domain] == 'pending':
+        time.sleep(0.7)  # magic number in the gandi docs
+        result = api.domain.available(apikey, [domain])
 
-if result.get(domain) == 'available':
-    print('Domain is available')
-    op = api.domain.create(apikey, domain, domain_spec)
-    print(op)
-else:
-    print('Domain is %s' % result.get(domain))
+    stamp = datetime.now().strftime('%Y-%m-%s %H:%M:%S')
+    if result.get(domain) == 'available':
+        print('%s: Domain is available - registering!' % stamp)
+        op = api.domain.create(apikey, domain, domain_spec)
+        print(op)
+    else:
+        print('%s: Domain is %s' % (stamp, result.get(domain)))
+
+    time.sleep(300)
