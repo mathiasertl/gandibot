@@ -12,6 +12,7 @@ from xmlrpc.client import ServerProxy
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--section', help='Config section.')
 parser.add_argument('-d', '--domain', help='Domain to check.')
+parser.add_argument('-f', '--freq', help='Frequency for checks.', default=300)
 parser.add_argument('--handle', help='Handle to use.')
 args = parser.parse_args()
 
@@ -68,4 +69,4 @@ while True:
     else:
         print('%s: Domain is %s' % (stamp, result.get(domain)))
 
-    time.sleep(300)
+    time.sleep(args.freq)
