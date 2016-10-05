@@ -60,7 +60,7 @@ while True:
         time.sleep(0.7)  # magic number in the gandi docs
         result = api.domain.available(apikey, [domain])
 
-    stamp = datetime.now().strftime('%Y-%m-%s %H:%M:%S')
+    stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if result.get(domain) == 'available':
         print('%s: Domain is available - registering!' % stamp)
         op = api.domain.create(apikey, domain, domain_spec)
